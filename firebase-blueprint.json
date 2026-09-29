@@ -1,0 +1,261 @@
+{
+  "entities": {
+    "scholarship": {
+      "title": "Scholarship",
+      "description": "An academic, athletic, or need-based scholarship grant offering tuition assistance and allowances.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique scholarship identifier"
+        },
+        "title": {
+          "type": "string",
+          "description": "Official scholarship title",
+          "maxLength": 200
+        },
+        "code": {
+          "type": "string",
+          "description": "Short reference code (e.g. SCH-EXC-2026)",
+          "maxLength": 50
+        },
+        "description": {
+          "type": "string",
+          "description": "Detailed description of eligibility and grant scope",
+          "maxLength": 2000
+        },
+        "category": {
+          "type": "string",
+          "enum": ["Academic", "Financial", "Athletic", "Alumni", "Industry", "Leadership", "Performing Arts", "Research", "Community"]
+        },
+        "slots": {
+          "type": "number",
+          "description": "Total available slots"
+        },
+        "slots_remaining": {
+          "type": "number",
+          "description": "Remaining available quota slots"
+        },
+        "grant_amount": {
+          "type": "number",
+          "description": "Financial grant value in Philippine Pesos"
+        },
+        "grant_type": {
+          "type": "string",
+          "description": "Description of grant benefits and term coverage",
+          "maxLength": 255
+        },
+        "min_gwa": {
+          "type": "number",
+          "description": "Minimum required General Weighted Average"
+        },
+        "max_family_income": {
+          "type": "number",
+          "description": "Maximum ceiling of annual/monthly family income"
+        },
+        "deadline": {
+          "type": "string",
+          "description": "Application deadline ISO date or date string",
+          "maxLength": 50
+        },
+        "requirements": {
+          "type": "array",
+          "description": "List of required submission documents"
+        },
+        "is_active": {
+          "type": "boolean",
+          "description": "Whether applications are currently accepted"
+        },
+        "is_frozen": {
+          "type": "boolean",
+          "description": "Whether application acceptance is temporarily frozen"
+        },
+        "freeze_note": {
+          "type": "string",
+          "description": "Reason or announcement note for the freeze period",
+          "maxLength": 500
+        },
+        "created_at": {
+          "type": "string",
+          "description": "Timestamp of record creation"
+        }
+      },
+      "required": ["id", "title", "code", "category", "slots", "slots_remaining", "grant_amount", "deadline", "is_active", "is_frozen"]
+    },
+    "application": {
+      "title": "Application",
+      "description": "A student submission applying for an available scholarship grant.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique application document ID"
+        },
+        "reference_code": {
+          "type": "string",
+          "description": "Unique student tracking reference code (e.g. SF-982F1A03)",
+          "maxLength": 30
+        },
+        "scholarship_id": {
+          "type": "string",
+          "description": "ID of the applied scholarship"
+        },
+        "scholarship_title": {
+          "type": "string",
+          "description": "Title of the scholarship at time of application",
+          "maxLength": 200
+        },
+        "student_number": {
+          "type": "string",
+          "description": "Student institutional ID number",
+          "maxLength": 50
+        },
+        "first_name": {
+          "type": "string",
+          "description": "Applicant given name",
+          "maxLength": 100
+        },
+        "last_name": {
+          "type": "string",
+          "description": "Applicant surname",
+          "maxLength": 100
+        },
+        "email": {
+          "type": "string",
+          "description": "Applicant contact email address",
+          "maxLength": 150
+        },
+        "phone": {
+          "type": "string",
+          "description": "Applicant mobile phone number",
+          "maxLength": 50
+        },
+        "program": {
+          "type": "string",
+          "description": "Academic degree program",
+          "maxLength": 150
+        },
+        "year_level": {
+          "type": "string",
+          "description": "Current academic year level",
+          "maxLength": 50
+        },
+        "gwa": {
+          "type": "number",
+          "description": "Applicant GWA"
+        },
+        "monthly_family_income": {
+          "type": "number",
+          "description": "Total monthly household income"
+        },
+        "household_members": {
+          "type": "array",
+          "description": "Array of household member details"
+        },
+        "documents": {
+          "type": "array",
+          "description": "Array of uploaded compliance documents"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["Pending", "In Review", "Shortlisted", "Approved", "Rejected"]
+        },
+        "awarded_amount": {
+          "type": "number",
+          "description": "Amount awarded upon approval"
+        },
+        "remarks": {
+          "type": "string",
+          "description": "Public remarks visible to student",
+          "maxLength": 1000
+        },
+        "staff_notes": {
+          "type": "string",
+          "description": "Internal coordinator notes",
+          "maxLength": 2000
+        },
+        "created_at": {
+          "type": "string",
+          "description": "Application creation timestamp"
+        },
+        "updated_at": {
+          "type": "string",
+          "description": "Last update timestamp"
+        }
+      },
+      "required": ["id", "reference_code", "scholarship_id", "student_number", "first_name", "last_name", "email", "status"]
+    },
+    "freezePeriod": {
+      "title": "FreezePeriod",
+      "description": "Emergency or seasonal scholarship freeze announcement.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "scholarship_id": { "type": "string" },
+        "scholarship_title": { "type": "string", "maxLength": 200 },
+        "start_date": { "type": "string", "maxLength": 50 },
+        "end_date": { "type": "string", "maxLength": 50 },
+        "announcement_note": { "type": "string", "maxLength": 1000 },
+        "created_by": { "type": "string", "maxLength": 100 },
+        "created_at": { "type": "string" },
+        "is_active": { "type": "boolean" }
+      },
+      "required": ["id", "scholarship_id", "announcement_note", "is_active"]
+    },
+    "interview": {
+      "title": "InterviewSchedule",
+      "description": "Scheduled applicant interview record.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "application_id": { "type": "string" },
+        "student_name": { "type": "string", "maxLength": 150 },
+        "scholarship_title": { "type": "string", "maxLength": 200 },
+        "date_time": { "type": "string", "maxLength": 100 },
+        "location": { "type": "string", "maxLength": 200 },
+        "interviewer": { "type": "string", "maxLength": 150 },
+        "status": { "type": "string", "enum": ["Scheduled", "Completed", "Cancelled"] }
+      },
+      "required": ["id", "application_id", "student_name", "date_time", "status"]
+    },
+    "userProfile": {
+      "title": "UserProfile",
+      "description": "Staff or Administrator user account.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "email": { "type": "string", "maxLength": 150 },
+        "full_name": { "type": "string", "maxLength": 150 },
+        "role": { "type": "string", "enum": ["staff", "admin"] },
+        "department": { "type": "string", "maxLength": 200 },
+        "created_at": { "type": "string" }
+      },
+      "required": ["id", "email", "full_name", "role"]
+    }
+  },
+  "firestore": {
+    "/scholarships/{scholarshipId}": {
+      "schema": { "$ref": "#/entities/scholarship" },
+      "description": "Collection of university scholarship and fellowship programs"
+    },
+    "/applications/{applicationId}": {
+      "schema": { "$ref": "#/entities/application" },
+      "description": "Collection of submitted student scholarship applications"
+    },
+    "/freeze_periods/{freezeId}": {
+      "schema": { "$ref": "#/entities/freezePeriod" },
+      "description": "Emergency freeze records and announcements"
+    },
+    "/interviews/{interviewId}": {
+      "schema": { "$ref": "#/entities/interview" },
+      "description": "Coordinator and student interview appointment slots"
+    },
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/userProfile" },
+      "description": "System staff and administrator accounts"
+    },
+    "/staff_applications/{applicationId}": {
+      "description": "Staff account applications awaiting administrative review"
+    }
+  }
+}
