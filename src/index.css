@@ -1,0 +1,105 @@
+@import "tailwindcss";
+@import "./landingPage.css";
+
+/* ==========================================================================
+   Meridian University — Global Accessible Typography & Layout Foundations
+   ========================================================================== */
+
+:root {
+  --font-base: 18px;
+  --line-height-base: 1.7;
+  --line-height-relaxed: 1.8;
+}
+
+html {
+  font-size: var(--font-base);
+  line-height: var(--line-height-base);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  box-sizing: border-box;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+body {
+  font-size: 1rem;
+  line-height: var(--line-height-base);
+  color: #1e293b;
+  background-color: #f8fafc;
+  overflow-x: hidden;
+}
+
+p, li, label {
+  line-height: var(--line-height-relaxed);
+}
+
+/* Global Accessibility: Larger buttons, inputs, and touch targets */
+button, input, select, textarea {
+  font-family: inherit;
+}
+
+button:not(.btn-sm):not(.p-1):not(.p-1\.5) {
+  min-height: 2.25rem;
+}
+
+/* Notification Placement: Ensure all toasts/alerts align to the right side of the screen */
+.toast-container,
+.notification-toast,
+[role="alert"].toast,
+.fixed.toast {
+  right: 1.5rem !important;
+  left: auto !important;
+  transform: none !important;
+}
+
+/* Responsive typography scaling for high readability across viewports */
+@media (max-width: 640px) {
+  html {
+    font-size: 17px;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  html {
+    font-size: 17.5px;
+  }
+}
+
+@media (min-width: 1280px) {
+  html {
+    font-size: 18.5px;
+  }
+}
+
+/* ==========================================================================
+   Device Viewport & Responsive Guidelines (AGENTS.md Compliance)
+   ========================================================================== */
+
+.device-previews-container {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.phone-preview {
+  max-width: 430px;
+  width: 100%;
+  margin: 0 auto;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+
+.tablet-preview {
+  max-width: 834px;
+  width: 100%;
+  margin: 0 auto;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+

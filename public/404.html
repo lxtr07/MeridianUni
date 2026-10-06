@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ScholarFlow | Secure Route Interceptor</title>
+    <script>
+      // Single Page App Route Interceptor for GitHub Pages
+      // Intercepts direct path navigation (e.g. /admin or /staff) and redirects to index with route parameter
+      (function() {
+        var path = window.location.pathname;
+        var segments = path.split('/').filter(Boolean);
+        // Find if admin or staff was directly requested
+        var targetRoute = 'login';
+        if (segments.indexOf('admin') !== -1) {
+          targetRoute = 'admin';
+        } else if (segments.indexOf('staff') !== -1) {
+          targetRoute = 'staff';
+        } else if (segments.indexOf('student') !== -1) {
+          targetRoute = 'student';
+        }
+        
+        // Retain repository base path
+        var repoIndex = segments.indexOf('FinalScholarFlowed');
+        var basePath = repoIndex !== -1 ? '/' + segments.slice(0, repoIndex + 1).join('/') : '';
+        
+        var destination = basePath + '/?route=' + encodeURIComponent(targetRoute);
+        window.location.replace(destination);
+      })();
+    </script>
+  </head>
+  <body style="font-family: system-ui, -apple-system, sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; background: #0f172a; color: #f8fafc;">
+    <div style="text-align: center; padding: 20px;">
+      <h2 style="font-size: 1.25rem; font-weight: 600; margin-bottom: 8px;">Authenticating Route Access...</h2>
+      <p style="font-size: 0.875rem; color: #94a3b8;">Redirecting unauthorized attempts to login portal.</p>
+    </div>
+  </body>
+</html>

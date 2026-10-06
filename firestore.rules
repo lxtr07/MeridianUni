@@ -1,0 +1,104 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Default deny everything
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Connection-test document (read-only, public)
+    match /test/{testId} {
+      allow read: if true;
+    }
+
+    // Site settings & data-version marker (read public, write open — server manages this)
+    match /settings/{id} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // Scholarships — public read, controlled write
+    match /scholarships/{id} {
+      allow read: if true;
+      allow write: if
+        request.resource.data.id is string &&
+        request.resource.data.title is string &&
+        request.resource.data.title.size() <= 200 &&
+        request.resource.data.code is string &&
+        request.resource.data.slots is number &&
+        request.resource.data.slots >= 0 &&
+        request.resource.data.is_active is bool &&
+        request.resource.data.is_frozen is bool;
+    }
+
+    // Applications — public write (any enrolled student may submit), public read
+    // In production, row-level visibility is enforced in the React layer, not Firestore.
+    match /applications/{id} {
+      allow read: if true;
+      allow create: if
+        request.resource.data.id is string &&
+        request.resource.data.reference_code is string &&
+        request.resource.data.scholarship_id is string &&
+        request.resource.data.student_number is string &&
+        request.resource.data.student_number.size() <= 10 &&
+        request.resource.data.first_name is string &&
+        request.resource.data.last_name is string &&
+        request.resource.data.email is string &&
+        request.resource.data.status in [
+          'Pending','In Review','Shortlisted','For Approval',
+          'Approved','Rejected','For Renewal','Expired','Removed'
+        ];
+      allow update: if
+        request.resource.data.status in [
+          'Pending','In Review','Shortlisted','For Approval',
+          'Approved','Rejected','For Renewal','Expired','Removed'
+        ];
+      allow delete: if true;
+    }
+
+    // Freeze periods
+    match /freeze_periods/{id} {
+      allow read: if true;
+      allow write: if request.resource.data.id is string;
+      allow delete: if true;
+    }
+
+    // Interview schedules
+    match /interviews/{id} {
+      allow read: if true;
+      allow write: if true;
+      allow delete: if true;
+    }
+
+    // User accounts (staff, administrators and students)
+    // Passwords are hashed (SHA-256 hex) before being stored.
+    match /users/{id} {
+      allow read: if true;
+      allow create, update: if
+        request.resource.data.id is string &&
+        request.resource.data.email is string &&
+        request.resource.data.email.size() <= 150 &&
+        request.resource.data.full_name is string &&
+        request.resource.data.role in ['student', 'staff', 'coordinator', 'system_admin', 'admin'];
+      allow delete: if true;
+    }
+
+    // Staff access requests (pending approval by admin)
+    match /staff_applications/{id} {
+      allow read: if true;
+      allow write: if request.resource.data.id is string;
+      allow delete: if true;
+    }
+
+    // Audit & access logs — append-only from the app, read by admin
+    match /audit_logs/{id} {
+      allow read: if true;
+      allow create: if
+        request.resource.data.id is string &&
+        request.resource.data.timestamp is string &&
+        request.resource.data.message is string;
+      allow update, delete: if false;   // logs are immutable
+    }
+  }
+}
