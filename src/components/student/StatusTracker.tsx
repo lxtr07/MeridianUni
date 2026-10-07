@@ -96,7 +96,7 @@ export const StatusTracker: React.FC<StatusTrackerProps> = ({ applications, high
                     </div>
                   </div>
                 ) : (
-                  <ol className="grid grid-cols-5 gap-2" aria-label="Application progress">
+                  <ol className="grid grid-cols-4 gap-2" aria-label="Application progress">
                     {PIPELINE.map((p, i) => {
                       const done = i <= stepIdx;
                       const current = i === stepIdx;
