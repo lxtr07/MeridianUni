@@ -725,7 +725,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
               <span className="text-xs text-slate-500">Click any status card to view filtered records in the Queue</span>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3">
+            <div className="flex flex-wrap justify-center gap-3">
               {ALL_STATUSES.map((status) => (
                 <button
                   key={status}
@@ -734,7 +734,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                     setAppStatusFilter(status);
                     setActiveAdminTab('queue');
                   }}
-                  className="bg-white p-3.5 rounded-xl border border-slate-200 hover:border-indigo-400 hover:shadow-xs transition-all text-left space-y-1 cursor-pointer group"
+                  className="w-36 bg-white p-3.5 rounded-xl border border-slate-200 hover:border-indigo-400 hover:shadow-xs transition-all text-left space-y-1 cursor-pointer group"
                 >
                   <span className={`text-[10px] font-bold px-2 py-0.5 rounded block text-center truncate ${STATUS_BADGE[status]}`}>
                     {status}
