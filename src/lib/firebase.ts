@@ -169,7 +169,7 @@ export const SEEDED_ACCOUNTS: UserProfile[] = [...INITIAL_FACULTY_ACCOUNTS, ...I
  * collections are replaced with the new seed (program-scoped scholarships, registrar-backed
  * applications, strong default passwords). User-created staff accounts are kept.
  */
-export const DATA_VERSION = 9;  // bumped: fresh start — all student accounts, applications and staff requests removed; 5 registry students + 3 HR staff who can apply
+export const DATA_VERSION = 10;  // bumped: fresh start — all student accounts, applications and staff requests removed; 5 registry students + 3 HR staff who can apply
 
 // -------------------------------------------------------------
 // Local user cache — persists changed passwords across restarts
